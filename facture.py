@@ -8,9 +8,9 @@ class Produit:
     product_last_ref = 0
 
     def createRef(self):
-        ''' créen le numéro de référence du produit.
+        ''' crée le numéro de référence du produit.
 
-        :return: la référence créée (pour l'instant None)
+        :return: la référence créée
         '''
         r = Produit.product_last_ref
         Produit.product_last_ref += 1
@@ -26,12 +26,12 @@ class Produit:
 
 
 class LigneFacture:
-    ''' Ligne sur la facture avec un seul produit makis un nombre d'unités variable '''
+    ''' Ligne sur la facture avec un seul produit mais un nombre d'unités variable '''
 
     def __init__(self, unProduit: Produit, nbre: int):
         assert unProduit is not None , "produit vide !"
         self.produit = unProduit
-        assert isinstance(nbre ,int) and nbre >= 0 , "nombre non-entier ou négatif"
+        assert isinstance(nbre ,int) and nbre >= 0 , "nombre non-entier ou négatif: {0}".format(nbre)
         self.nombreItems = nbre
 
     @property
@@ -84,23 +84,3 @@ class Facture:
         return f"Facture référence={self.refFacture}, client={self.clientName}, montant HT={self.montantTotalHT} \
                , montant TTC={self.montantTotalTTC()}, lignes:\n" + repr(self.lignes)
 
-
-def testFacture():
-    ''' Fonction de test du module
-
-    :return: rien
-    '''
-    prod1 = Produit('vélo', 200.0)
-    prod2 = Produit('tricycle', 500.0)
-    assert prod1.nomProduit == 'vélo'
-    assert prod1.prixUnitaire == 200.0
-
-    maFacture = Facture(myTVA=0.2, myClientName='Toto')
-    maFacture.addLigne(LigneFacture(prod1, 3))
-    maFacture.addLigne(LigneFacture(prod2, 1))
-    assert maFacture.montantTotalTTC() == 1320.0
-
-    print('Facture créée : {0}'.format(maFacture))
-
-
-testFacture()
