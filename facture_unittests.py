@@ -68,7 +68,11 @@ class FactureTestCase(unittest.TestCase):
 
         ref_facture = Facture.createRefFacture()
         print(f'Numéro de facture : {ref_facture}')
-
+        ref_facture = Facture.createRefFacture()
+        print(f'Numéro de facture : {ref_facture}')
+        for i in range(1,100):
+            ref_facture = Facture.createRefFacture()
+        print(f'Numéro de facture : {ref_facture}')
         print('Fin test_ref_creations ')
 
 if __name__ == '__main__':

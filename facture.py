@@ -80,7 +80,9 @@ class Facture:
         :param self:
         :return: la référence créée (pour l'instant une valeur fixe)
         '''
-        return f'INV-2018/{Facture.ref_number}'
+        r = Facture.ref_number
+        Facture.ref_number += 1
+        return f'INV-2018/{r}'
 
     def __str__(self):
         return f"Facture référence={self.refFacture}, client={self.clientName}, montant HT={self.montantTotalHT} \
