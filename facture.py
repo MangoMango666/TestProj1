@@ -38,36 +38,43 @@ class Product:
         return f"{self.nomProduit}, référence: {self.reference}, prix unitaire:{self.prixUnitaire}"
 
 
-class LigneFacture:
+class InvoiceLine:
     ''' Ligne sur la facture avec un seul produit mais un nombre d'unités variable '''
 
-    def __init__(self, unProduit: Product, nbre: int):
+    def __init__(self, unProduit: Product, nbre: int, vat: float):
         assert unProduit is not None , "produit vide !"
         self.produit = unProduit
         assert isinstance(nbre ,int) and nbre >= 0 , "nombre non-entier ou négatif: {0}".format(nbre)
         self.nombreItems = nbre
+        self.vat = vat
 
     @property
     def montantLigne(self):
         # définir la méthode comme property permet d'appeler la méthode comme si c'était un attribut
         return self.produit.prixUnitaire * self.nombreItems
 
+
+    @property
+    def montantLigneTTC(self):
+        # définir la méthode comme property permet d'appeler la méthode comme si c'était un attribut
+        return self.montantLigne * ( 1 + self.vat)
+
     def __repr__(self):
         return f"Produit: {self.produit}, nombre unités={self.nombreItems}, montantHT={self.montantLigne}\n"
 
 
-class Facture:
+class Invoice:
     """ Instance de facture.
     """
 
     def __init__(self, myTVA: float, myClient: Client):
         assert isinstance(myTVA,float), " TVA non-float, instance de "+str(type(myTVA))
         self.client = myClient
-        self.TVA = myTVA
-        self.refFacture = Facture.createRefFacture()
+        self.defaultVAT = myTVA
+        self.refFacture = Invoice.createRefFacture()
         self.lignes = []
 
-    def addLigne(self, uneLigne: LigneFacture):
+    def addLigne(self, uneLigne: InvoiceLine):
         ''' Ajoute une ligne produit dans la facture
 
         :param uneLigne: une ligne produit
@@ -87,7 +94,7 @@ class Facture:
 
         :return: le montant TTC
         '''
-        return self.montantTotalHT * (1 + self.TVA)
+        return sum(ligne.montantLigneTTC for ligne in self.lignes)
 
     # numéro interne incrémental de référence
     ref_number = 1
@@ -98,8 +105,8 @@ class Facture:
         :param self:
         :return: la référence créée (pour l'instant une valeur fixe)
         '''
-        r = Facture.ref_number
-        Facture.ref_number += 1
+        r = Invoice.ref_number
+        Invoice.ref_number += 1
         return f'INV-2018/{r}'
 
     def __str__(self):
