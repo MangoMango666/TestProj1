@@ -7,7 +7,7 @@ class Produit:
 
     product_last_ref = 0
 
-    def createRef(self):
+    def createRef():
         ''' crée le numéro de référence du produit.
 
         :return: la référence créée
@@ -19,7 +19,7 @@ class Produit:
     def __init__(self, leNomProduit: str, prixUnit: float):
         self.nomProduit = leNomProduit
         self.prixUnitaire = prixUnit
-        self.reference = self.createRef()
+        self.reference = Produit.createRef()
 
     def __str__(self):
         return f"{self.nomProduit}, référence: {self.reference}, prix unitaire:{self.prixUnitaire}"
@@ -51,7 +51,7 @@ class Facture:
         assert isinstance(myTVA,float), " TVA non-float, instance de "+str(type(myTVA))
         self.clientName = myClientName
         self.TVA = myTVA
-        self.refFacture = self.createRefFacture()
+        self.refFacture = Facture.createRefFacture()
         self.lignes = []
         self.montantTotalHT = 0.0
 
@@ -72,13 +72,15 @@ class Facture:
         '''
         return self.montantTotalHT * (1 + self.TVA)
 
-    def createRefFacture(self) -> str :
+    ref_number = 1
+
+    def createRefFacture() -> str :
         ''' Crée la référence de facture
 
         :param self:
         :return: la référence créée (pour l'instant une valeur fixe)
         '''
-        return 'INV-2018/0001'
+        return f'INV-2018/{Facture.ref_number}'
 
     def __str__(self):
         return f"Facture référence={self.refFacture}, client={self.clientName}, montant HT={self.montantTotalHT} \

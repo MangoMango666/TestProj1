@@ -33,7 +33,7 @@ class FactureTestCase(unittest.TestCase):
 
 
     def testFacture_fails(self):
-        ''' Fonction de test qui crée volontairement des échecs '''
+        ''' Fonction de test qui crée volontairement des échecs. '''
         print('Début testFacture_fails ')
 
         # test d'exception pour quantité négative
@@ -55,6 +55,21 @@ class FactureTestCase(unittest.TestCase):
             facture.addLigne(LigneFacture(None,20))
 
         print('Fin testFacture_fails ')
+
+    def test_ref_creations(self):
+        ''' Teste les créations sérialisées de référence. '''
+        print('Début test_ref_creations ')
+
+        prod1 = Produit('produit 1',10.0)
+        print(f'Produit 1 : {prod1}')
+        nvlle_ref = Produit.createRef()
+        print('Nouvelle référence produit 1 : {0}'.format(nvlle_ref ))
+        self.assertEqual(prod1.reference,nvlle_ref-1)
+
+        ref_facture = Facture.createRefFacture()
+        print(f'Numéro de facture : {ref_facture}')
+
+        print('Fin test_ref_creations ')
 
 if __name__ == '__main__':
     unittest.main()
