@@ -33,9 +33,9 @@ class FactureTestCase(unittest.TestCase):
         assert prod1.nomProduit == 'vélo'
         assert prod1.prixUnitaire == 200.0
 
-        maFacture = Facture(myTVA=0.2, myClient=Client(name='Toto'))
-        maFacture.addLigne(LigneFacture(prod1, 3))
-        maFacture.addLigne(LigneFacture(prod2, 1))
+        maFacture = Invoice(myDefaultTVA=0.2, myClient=Client(name='Toto'))
+        maFacture.addLine(InvoiceLine(prod1, 3, 0.2))
+        maFacture.addLine(InvoiceLine(prod2, 1, 0.2))
         assert maFacture.montantTotalTTC == 1320.0
 
         print('Facture créée : {0}'.format(maFacture))
@@ -48,21 +48,21 @@ class FactureTestCase(unittest.TestCase):
 
         # test d'exception pour quantité négative
         with self.assertRaises(AssertionError):
-            LigneFacture(Product('tomate', 1.0), -1)
+            InvoiceLine(Product('tomate', 1.0), -1, 0.1)
 
 
         # test d'exception pour quantité non-entière
         with self.assertRaises(AssertionError):
-            LigneFacture(Product('tomate', 1.0), 1.5)
+            InvoiceLine(Product('tomate', 1.0), 1.5, 0.1)
 
         # test d'exception pour quantité non-entière
         with self.assertRaises(AssertionError):
-            Facture(myTVA='pas un numérique',myClient=Client(name='Toto'))
+            Invoice(myDefaultTVA='pas un numérique', myClient=Client(name='Toto'))
 
         # test d'exception avec produit None
         with self.assertRaises(AssertionError):
-            facture = Facture(myTVA=0.2, myClient=Client(name='Toto'))
-            facture.addLigne(LigneFacture(None,20))
+            facture = Invoice(myDefaultTVA=0.2, myClient=Client(name='Toto'))
+            facture.addLine(InvoiceLine(None, 20, 0.2))
 
         print('Fin testFacture_fails ')
 
@@ -76,12 +76,12 @@ class FactureTestCase(unittest.TestCase):
         print('Nouvelle référence produit 1 : {0}'.format(nvlle_ref ))
         self.assertEqual(prod1.reference,nvlle_ref-1)
 
-        ref_facture = Facture.createRefFacture()
+        ref_facture = Invoice.createRefFacture()
         print(f'Numéro de facture : {ref_facture}')
-        ref_facture = Facture.createRefFacture()
+        ref_facture = Invoice.createRefFacture()
         print(f'Numéro de facture : {ref_facture}')
         for i in range(1,100):
-            ref_facture = Facture.createRefFacture()
+            ref_facture = Invoice.createRefFacture()
         print(f'Numéro de facture : {ref_facture}')
         print('Fin test_ref_creations ')
 

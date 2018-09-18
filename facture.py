@@ -3,6 +3,7 @@ Module pour exercice de la formation Python avance : facturier
 """
 
 from dataclasses import dataclass
+from typing import Optional
 
 @dataclass
 class Client:
@@ -11,7 +12,7 @@ class Client:
     name: str
     address: str = ''
     phone: str = ''
-    email: str = ''
+    email: Optional[str] = None
 
 class Product:
     ''' Définition d'un produit dans le catalogue. '''
@@ -41,7 +42,7 @@ class Product:
 class InvoiceLine:
     ''' Ligne sur la facture avec un seul produit mais un nombre d'unités variable '''
 
-    def __init__(self, unProduit: Product, nbre: int, vat: float):
+    def __init__(self, unProduit: Product, nbre: int, vat:float=0.2):
         assert unProduit is not None , "produit vide !"
         self.produit = unProduit
         assert isinstance(nbre ,int) and nbre >= 0 , "nombre non-entier ou négatif: {0}".format(nbre)
@@ -60,21 +61,21 @@ class InvoiceLine:
         return self.montantLigne * ( 1 + self.vat)
 
     def __repr__(self):
-        return f"Produit: {self.produit}, nombre unités={self.nombreItems}, montantHT={self.montantLigne}\n"
+        return f"Produit: {self.produit}, nombre unités={self.nombreItems}, montantHT={self.montantLigne}"
 
 
 class Invoice:
     """ Instance de facture.
     """
 
-    def __init__(self, myTVA: float, myClient: Client):
-        assert isinstance(myTVA,float), " TVA non-float, instance de "+str(type(myTVA))
+    def __init__(self,  myClient: Client, myDefaultTVA:float=0.2):
+        assert isinstance(myDefaultTVA, float), " TVA non-float, instance de " + str(type(myDefaultTVA))
         self.client = myClient
-        self.defaultVAT = myTVA
+        self.defaultVAT = myDefaultTVA
         self.refFacture = Invoice.createRefFacture()
         self.lignes = []
 
-    def addLigne(self, uneLigne: InvoiceLine):
+    def addLine(self, uneLigne: InvoiceLine):
         ''' Ajoute une ligne produit dans la facture
 
         :param uneLigne: une ligne produit

@@ -1,1 +1,3 @@
 coverage
+jinja2
+factory_boy

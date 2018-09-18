@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+</head>
+<body>
+Client : {{ myInvoice.client.name }} <br />
+Numéro de facture : {{ myInvoice.refFacture }}
+    <table>
+        <thead>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Amount excl.VAT</th>
+            <th>vat</th>
+            <th>Amount incl.VAT</th>
+        </thead>
+        <tbody>
+            {% for line in myInvoice.lignes %}
+            <tr>
+                <td>{{ line.produit.nomProduit }}</td>
+                <td>{{ line.nombreItems }}</td>
+                <td>{{ line.produit.prixUnitaire }}</td>
+                <td>{{ line.montantLigne }}</td>
+                <td>{{ line.vat }}</td>
+                <td>{{ line.montantLigneTTC }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>TOTAL TTC</td>
+                <td>{{ myInvoice.montantTotalTTC }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
