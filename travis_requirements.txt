@@ -3,3 +3,6 @@ jinja2
 factory_boy
 prettyprinter
 requests
+pytest
+pytest-mock
+#weasyprint

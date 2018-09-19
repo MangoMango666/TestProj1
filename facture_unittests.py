@@ -1,3 +1,6 @@
+"""
+Module de tests unitaires de facture.py
+"""
 import unittest
 from facture import *
 
@@ -31,7 +34,8 @@ class FactureTestCase(unittest.TestCase):
         prod1 = Product('vélo', 200.0)
         prod2 = Product('tricycle', 500.0)
         assert prod1.nomProduit == 'vélo'
-        assert prod1.prixUnitaire == 200.0
+        self.assertEqual(prod1.prixUnitaire, 200.0)
+        # comparé à un simple assert, au casoù le test échoue, on aura plus d'info (valeur des deux paramètres affichées)
 
         maFacture = Invoice(myDefaultTVA=0.2, myClient=Client(name='Toto'))
         maFacture.addLine(InvoiceLine(prod1, 3, 0.2))

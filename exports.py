@@ -6,15 +6,18 @@ from facture import Invoice
 
 env = Environment( loader=FileSystemLoader('templates') )
 
+
 def generateHtml(inv:Invoice):
     template = env.get_template ('invoice.html')
     return template.render(myInvoice=inv)
+
 
 def generateTestHtml():
     # récupération d'une facture
     f = generateInvoice()
     print(f'Facturé générée : {f}')
     return generateHtml(f)
+
 
 def generatePdf(content, filename):
     from weasyprint import HTML, CSS

@@ -10,12 +10,14 @@ list_of_products_1 = ['brocolis', 'tomate','citrouille','carotte','fenouil']
 
 fake = Faker()
 
+
 class MyProvider(providers.BaseProvider):
     def product_name(self):
         return random.choice(list_of_products_1)
 
 #    def client_name(self):
 #        return fake.
+
 
 factory.Faker.add_provider(MyProvider)
 
@@ -30,6 +32,7 @@ class ProductFactory(factory.Factory):
     # reference = factory.Sequence(lambda identifier: f'PRO-{identifier}')
     prixUnit = factory.Faker('pyfloat', left_digits=3, right_digits=2, positive=True)
 
+
 class InvoiceLineFactory(factory.Factory):
     class Meta:
         model = InvoiceLine
@@ -37,12 +40,14 @@ class InvoiceLineFactory(factory.Factory):
     unProduit = factory.SubFactory(ProductFactory)
     nbre = factory.Faker('random_int')
 
+
 class ClientFactory(factory.Factory):
     class Meta:
         model = Client
 
     name = factory.Faker('name')
     # TODO : address,  phone: ,  email
+
 
 class EmptyInvoiceFactory(factory.Factory):
     class Meta:
@@ -52,12 +57,14 @@ class EmptyInvoiceFactory(factory.Factory):
 
 # test du module
 
+
 def generateInvoice():
     f = EmptyInvoiceFactory()
     # ajout de lignes de facture
     for i in range(1, random.randint(2, 11)):
         f.addLine(InvoiceLineFactory())
     return f
+
 
 if __name__== '__main__':
     print('Génération de 10 produits :')
