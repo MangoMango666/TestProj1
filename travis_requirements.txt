@@ -5,4 +5,13 @@ prettyprinter
 requests
 pytest
 pytest-mock
+pytest-flake8
+pytest-cov
+pytest-profiling
+memory_profiler
+memory_profiler
+matplotlib
+flake8
+pylint
+sphinx
 #weasyprint
