@@ -145,5 +145,22 @@ class TestMocker:
         print('test_my_mock completed')
 
 
+class TestFixtures:
+    ''' Le but des fixtures est de générer des données pour lancer en série un test '''
+
+    USERS = [FAKE_USER, FAKE_USER, FAKE_USER]  # 3 fois le même user, mais serait mieux avec des users différents
+
+    @pytest.fixture() # PyTest repère le décorateur et sait que
+    def generate_user_and_title(self):
+        # TODO : coder un générateur qui renvoie les objets nécessaires pour les tests
+        user = User.createFromJson()
+        pass
+
+    # méthode de test qui utilise les fixtures
+    def test_(self,generate_user_and_title): # on passe la méthode avec le décorateur comme paramètre
+        # TODO : coder le test qui va être appelé pour chaque itération du générateur renvoyé par generate_user_and_title
+        pass
+
+
 if __name__== '__main__':
     pytest.main()

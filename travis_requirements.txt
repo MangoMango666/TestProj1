@@ -14,4 +14,5 @@ matplotlib
 flake8
 pylint
 sphinx
+bs4 ; BeautifoulSoup4
 #weasyprint
